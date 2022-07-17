@@ -14,9 +14,9 @@
     <header>
         <figure id="glava"><img src="./pictures/glavna.png" alt="Glava"></figure>
         <nav class="flex">
-            <a href="">Životopis</a>
-            <a href="">Iskustvo</a>
-            <a href="">Vještine</a>
+            <span onclick="skrollaj('zivotopis')">Životopis</span>
+            <span onclick="skrollaj('iskustvo')">Iskustvo</span>
+            <span onclick="skrollaj('vjestine')">Vještine</span>
         </nav>
     </header>
     <main>
@@ -24,9 +24,9 @@
            <img src="./pictures/naslovna.png" alt="">
            <h1>Josip Radoš</h1>
         </section>
-        <h2>State my deal</h2>
 
         <section id="zivotopis">
+            <h2>O meni</h2>
             <p>Zdravo! Ja sam Josip Radoš. Rođen sam 27.6.2001.
             u Sarajevu. Muzičar sam i junior programer.
             Muzikom se bavim od osnovne škole kada sam se zainteresovao za gitaru i poceo ju samostalno vježbati.
@@ -109,6 +109,13 @@
 
         </section>
     </main>
+
+    <footer class="flex">
+        <a href=""><img src="./pictures/ig.png" alt=""></a>
+        <a href=""><img src="./pictures/fb.png" alt=""></a>
+        <img src="./pictures/mail.png" alt="" onclick="kopiraj()">
+    </footer>
+    <div id="notification"> <p>e-mail copied to clipboard</p></div>
     <script src="js.js"></script>
 </body>
 </html>

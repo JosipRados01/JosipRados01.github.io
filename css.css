@@ -37,6 +37,7 @@ nav {
     padding: 10px 16px;
     z-index: 8;
     transition: all 0.4s ease-in-out;
+    color: var(--background-color);
 }
 
 #glava {
@@ -59,6 +60,29 @@ header:hover nav{
     transform: translateX(2.5vw);
 }
 
+nav span{
+    transition: all 0.1s;
+}
+nav span:hover{
+    text-decoration: underline;
+    transform: scale(1.1);
+}
+
+a {
+    color: var(--dark-blue);
+    text-decoration: none;
+    transition: 0.1s all;
+}
+a:hover{
+    text-decoration: underline;
+    color: var(--solid-blue);
+    transform: scale(1.1);
+}
+a:visited:hover{
+    color: var(--background-color);
+    transform: scale(1.1);
+}
+
 .flex{
     display: flex;
     flex-direction: row;
@@ -70,6 +94,10 @@ header:hover nav{
 .center{
     margin: 10px auto;
     width: fit-content;
+}
+
+section{
+    padding-top: 4rem;
 }
 
 #naslov >*{
@@ -108,4 +136,43 @@ p {
 }
 strong{
     font-family: 'Montserrat', sans-serif;
+}
+
+footer >*{
+    width: 15%;
+}
+footer a:hover{
+    transform: scale(1);
+}
+
+footer img:hover{
+    transform: scale(1.1);
+}
+
+footer {
+    padding-bottom: 3rem;
+}
+footer img{
+    transition: all 0.2s;
+}
+
+#notification p{
+    padding: 0px;
+    margin: 10px auto;
+}
+
+#notification {
+    position: fixed;
+    font-size: 1.5rem;
+    width: 450px;
+    height: 70px;
+    top: -70px;
+    left: calc(50% - 225px);
+    background-color: var(--light-blue);
+    animation-duration: 2s;
+    transition: all 0.5s ease-in-out;
+}
+
+.show {
+    transform: translateY(70px);
 }
