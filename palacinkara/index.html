@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./index.css">
+    <title>Projekt 2</title>
+</head>
+<body>
+    <header>
+        <img src="sprites/pancake_1.png">
+
+        <h1>Palačinka.ra</h1>
+        
+        <img src="sprites/pancake_2.png">
+
+    </header>
+    <main>
+        <canvas id="canvas" width="1024px" height="680px">Failed to load canvas</canvas>
+        
+        <div class="flex">
+            <div >
+                <input type="button" name="difficulty" value="Lako" id="ez" onclick="btnclicked(3)" >
+            </div>
+
+            <div >
+                <input type="button" name="difficulty" value="Normalno" id="mid" onclick="btnclicked(5)">
+            </div>
+
+            <div >
+                <input type="button" name="difficulty" value="Teško" id="gg" onclick="btnclicked(10)" >
+            </div>
+        </div>
+
+        <article class="flex">
+            <p class="info">Palačinka.ra je igra u kojoj povečavaš svoju palačinku. Kreći se mišem i izbjegavaj palačinke veće od tebe dok jedeš manje. 
+                            Ponekad će se pojaviti flaša mlijeka koja će uraditi nešto posebno. Oprezno dok ih piješ i SRETNO!!</p>
+            <div class="info">
+                <dt>
+                    <dl>Predmet - Web programiranje</dl>
+                        <dd>Profesor - Elmedin Selmanović</dd>
+                        <dd>Asistent - Malek Chahin</dd>
+                    <dl>Studij - IT</dl>
+                    <dl>Fakultet - Prirodno-matematički fakutet</dl>
+                    <dl>Podatci o autoru</dl>
+                        <dd>Josip Radoš</dd>
+                        <dd><a href="https://www.facebook.com/josip.rados.984/" target="_blank">Facebook</a>, <a href="https://www.instagram.com/optimus_beg/" target="_blank">Instagram</a></dd>
+                </dt>
+            </div>
+    </article>
+    </main>
+
+    <script src="index.js"></script>
+</body>
+</html>

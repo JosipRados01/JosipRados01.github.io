@@ -1,0 +1,111 @@
+:root {
+    --background-color:#d2e1e6;
+    --light-blue:#c1e3ed;
+    --metal:#aac9dd;
+    --solid-blue:#78aed3;
+    --dark-blue:#2a4466;
+}
+
+img{
+    width: 100%;
+    height: auto;
+}
+body, figure {
+    margin: 0px;
+}
+body{
+    font-family: 'Montserrat', sans-serif;
+    color: var(--dark-blue);
+    background-color: var(--background-color);
+    text-align: center;
+}
+
+header {
+    height: 74px;
+    width: 70px;
+    position: fixed;
+    top: 5px;
+}
+
+nav {
+    background-color: var(--dark-blue);
+    position: fixed;
+    top: 10px;
+    width: 90vw;
+    transform: translateX(-100vw);
+    
+    padding: 10px 16px;
+    z-index: 8;
+    transition: all 0.4s ease-in-out;
+}
+
+#glava {
+    position: fixed;
+    top: 0px;
+    width: 70px;
+    margin: 0px;
+    z-index: 10;
+    transition: all 0.5s ease-out;
+}
+
+header:hover{
+    height: 60px;
+    width: 100vw;
+}
+header:hover #glava{
+    transform: translateX(-70px);
+}
+header:hover nav{
+    transform: translateX(2.5vw);
+}
+
+.flex{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.center{
+    margin: 10px auto;
+    width: fit-content;
+}
+
+#naslov >*{
+    max-width: 49%;
+    font-size:3rem;
+}
+#naslov{
+    margin-top: 2rem;
+    background-color: var(--solid-blue);
+    padding: 2rem;
+}
+
+#iskustvo a {
+   width: clamp(70px, 50%, 400px);
+   margin: 1rem;
+}
+#iskustvo{
+    background-color: var(--metal);
+}
+
+#vjestine img{
+    width: clamp(50px, 100px, 200px);
+}
+
+#vjestine >*{
+    margin-bottom:5rem ;
+}
+
+#vjestine{
+    margin: 3rem auto;
+    max-width: 70%;
+}
+
+p {
+    padding: 1rem;
+}
+strong{
+    font-family: 'Montserrat', sans-serif;
+}
