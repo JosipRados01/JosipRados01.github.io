@@ -103,11 +103,18 @@ section{
 #naslov >*{
     max-width: 49%;
     font-size:3rem;
+    width: clamp(100px, 49%, 500px);
 }
 #naslov{
-    margin-top: 2rem;
     background-color: var(--solid-blue);
     padding: 2rem;
+    max-width: 1200px;
+    margin: 2rem auto;
+}
+
+main {
+    max-width: 800px;
+    margin: 0px auto;
 }
 
 #iskustvo a {
@@ -128,15 +135,23 @@ section{
 
 #vjestine{
     margin: 3rem auto;
-    max-width: 70%;
+    max-width: 380px;
 }
 
 p {
     padding: 1rem;
+    max-width: 600px;
+    margin: 0px auto;
 }
 strong{
     font-family: 'Montserrat', sans-serif;
 }
+
+#projekti {
+    max-width: 500px;
+    margin:0px auto ;
+}
+
 
 footer >*{
     width: 15%;
@@ -151,6 +166,8 @@ footer img:hover{
 
 footer {
     padding-bottom: 3rem;
+    max-width: 300px;
+    margin: 0px auto;
 }
 footer img{
     transition: all 0.2s;
@@ -173,6 +190,21 @@ footer img{
     transition: all 0.5s ease-in-out;
 }
 
-.show {
+.showup {
     transform: translateY(70px);
 }
+
+/* animacije*/
+
+.fader.show {
+    transform: translateX(0);
+    opacity: 1;
+}
+
+.fader {
+    transform: translateY(100px);
+    opacity: 0;
+    transition: 0.2s;
+}
+
+
