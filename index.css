@@ -1,0 +1,283 @@
+:root {
+    --black: #222222;
+    --red: #fb7342 ;
+    --orange: #fec234;
+    --light: #ffcc33;
+    --dark: #cc6633;
+    --brown: #a36322;
+}
+html, body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Nunito', sans-serif;
+    font-family: 'Roboto Mono', monospace;
+}
+img {
+    width: 100%;
+    height: auto;
+}
+body {
+    background: radial-gradient(at bottom right, #949494, white);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+    transition: background 1s ease;
+}
+main {
+    height:calc(100% - 15px) ;
+    width: calc(100% - 15px);
+    padding: 0;
+    overflow-y: scroll;
+}
+/* Hide the scrollbar for all elements */
+::-webkit-scrollbar {
+    width: 0;
+}
+
+/* Optional: Hide the scrollbar track */
+::-webkit-scrollbar-track {
+    display: none;
+}
+
+a {color: white; text-decoration: none; transition: all 0.2s;}
+a:hover {color: #adadad; text-decoration: underline}
+a:visited {color: #949494}
+a img {transition: all 0.2s;}
+a img:hover {transform: scale(0.9)}
+
+ section {
+     min-height: 100%;
+     margin-bottom: -1px;
+ }
+ #landing {
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     background: radial-gradient(at bottom right, #000000, #222222);
+ }
+
+ .obojeni_div h1 {
+     position: absolute;
+     top: 0;
+     left: 0;
+     font-size: max(70px, 7vw);
+     margin: 0;
+     letter-spacing: 0;
+     transform: translateX(50%);
+ }
+ .obojeni_div {
+     position: relative;
+     width: max(90px, 9vw);
+     height: max(90px, 9vw);
+     display: inline-block;
+     margin-inline: 20px;
+     border-radius: 50%;
+ }
+
+ .smedji   {background-color: var(--brown); color:var(--brown);}
+ .crveni   {background-color:var(--red) ; color:var(--red);}
+ .orange   {background-color:var(--orange) ; color:var(--orange);}
+ .svijetli {background-color: var(--light) ; color:var(--light);}
+ .bijeli   {background-color: white ; color:white;}
+
+ .sivi1 {background-color: #dfdfdf ; color:#dfdfdf;}
+ .sivi2 {background-color: #cccccc ; color:#cccccc;}
+ .sivi3 {background-color: #adadad ; color:#adadad;}
+ .sivi4 {background-color: #949494 ; color: #949494;}
+
+ .ide_dole, .ide_gore {
+     animation-delay: 1s;
+     animation-duration: 1s;
+     animation-fill-mode: forwards;
+     animation-timing-function: ease-in-out;
+ }
+
+#obojeni_divovi {
+    animation-delay: 0.5s;
+    animation-duration: 0.5s;
+    animation-fill-mode: forwards;
+    animation-timing-function: ease-in-out;
+    opacity: 0;
+    animation-name: appear;
+}
+
+
+ .ide_gore{ animation-name: gore; }
+ .ide_dole{ animation-name: dole; }
+
+ .diagonalni {
+     position: relative;
+     isolation: isolate;
+     color: black;
+     padding: 70px 0;
+     max-width: max(500px, 80%);
+     margin: 0 auto;
+ }
+ .diagonalni::after {
+     content: "";
+     background: linear-gradient(to right, #ffffff, #bbbbbb);
+     position: absolute;
+     width: 150vw;
+     inset: 0;
+     left: -50vw;
+     z-index: -1;
+     transform: skewY(-5deg);
+ }
+
+#projekti {
+    background: radial-gradient(at top right, #000000, #222222);
+    color: white;
+    padding-top: 200px;
+}
+h2 {
+    margin-top: 100px;
+    text-align: center;
+    font-size: 3rem;
+}
+
+#projekti div {
+    max-width: max(500px, 80%);
+    margin: 0 auto;
+    padding: 70px 0;
+}
+.pola-pola {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+.pola-pola >* {
+    max-width: 45%;
+}
+
+.center-felx-column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+#ostali {
+    background: radial-gradient(at bottom right, #000000, #222222);
+    color: white;
+    padding-top: 200px;
+}
+#o_meni {
+    background: radial-gradient(at top right, #000000, #222222);
+    color: white;
+    padding-top: 200px;
+    padding-bottom: 200px;
+}
+#o_meni p {
+    max-width: max(600px, 50%);
+}
+
+#o_meni .diagonalni {
+    padding: 50px 0;
+    margin-bottom: 100px;
+}
+#o_meni .diagonalni h2 {
+    margin: 0;
+}
+
+#projekt_grid {
+    margin-top: 100px;
+    display: grid;
+    grid-template-columns: repeat( auto-fit, minmax(18rem, 1fr));
+
+}
+
+.card {
+    position: relative;
+    padding: 20px;
+}
+
+.card figure {
+    transition: all 0.3s;
+}
+.card:hover figure {
+    filter: brightness(0.2);
+}
+
+.card p {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    transition: all 0.3s;
+    width: 70%;
+    font-size: 0.8rem;
+}
+
+.card:hover p {
+    opacity: 1;
+}
+
+
+@media screen and (max-width: 800px) {
+    #obojeni_divovi {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .obojeni_div h1 {
+        font-size: max(30px, 3vh);
+        transform: translateX(50%);
+    }
+    .obojeni_div {
+        width: max(40px, 4vh);
+        height: max(40px, 4vh);
+        margin: 20px 0;
+    }
+
+    .pola-pola {
+        flex-direction: column;
+    }
+    .pola-pola >* {
+        max-width: 80%;
+    }
+
+    #o_meni p, .diagonalni p {
+        max-width: 80%;
+        margin-inline: auto;
+    }
+
+}
+
+
+ /* animacije */
+
+ @keyframes gore {
+     from {transform: translate(50%, 0)}
+     to   {transform: translate(150%, -100%)}
+ }
+
+@keyframes dole {
+    from {transform: translate(50%, 0)}
+    to   {transform: translate(-100%, 100%)}
+}
+@keyframes appear {
+    from {opacity: 0; }
+    to   {opacity: 1; }
+}
+
+
+@media screen and (max-width: 800px) {
+
+    @keyframes gore {
+        from {transform: translate(50%, 0)}
+        to   {transform: translate(350%, -300%)}
+    }
+
+    @keyframes dole {
+        from {transform: translate(50%, 0)}
+        to   {transform: translate(-300%, 300%)}
+    }
+
+}
+
+
+
