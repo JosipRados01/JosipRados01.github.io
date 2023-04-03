@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Iks-Oks</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+    <main class="pozadina_crvena">
+        <div class="overlay" >
+            <h1>Tic-Tac-Toe</h1>
+            <p>
+                I'm pretty sure we are all familiar with the game of tic-tac-toe.
+                the rules are simple: two players play against each other each one trying
+                to connect three of their simbols in a row and prevent the other player in doing so
+            </p>
+            <div>
+                <button class="btn" onclick="hideOverlay(2)"> Two players </button>
+                <button class="btn" onclick="hideOverlay(1)"> One player </button>
+            </div>
+        </div>
+        <div id="igra" class="iks">
+            <figure  data-number="1">
+                <img src="./slike/x.png" class="x">
+                <img src="./slike/o.png" class="o">
+            </figure>
+            <figure  data-number="2">
+                <img src="./slike/x.png" class="x">
+                <img src="./slike/o.png" class="o">
+            </figure>
+            <figure data-number="3">
+                <img src="./slike/x.png" class="x">
+                <img src="./slike/o.png" class="o">
+            </figure>
+
+            <figure data-number="4">
+                <img src="./slike/x.png" class="x">
+                <img src="./slike/o.png" class="o">
+            </figure>
+            <figure data-number="5">
+                <img src="./slike/x.png" class="x">
+                <img src="./slike/o.png" class="o">
+            </figure>
+            <figure data-number="6">
+                <img src="./slike/x.png" class="x">
+                <img src="./slike/o.png" class="o">
+            </figure>
+
+            <figure data-number="7">
+                <img src="./slike/x.png" class="x">
+                <img src="./slike/o.png" class="o">
+            </figure>
+            <figure data-number="8">
+                <img src="./slike/x.png" class="x">
+                <img src="./slike/o.png" class="o">
+            </figure>
+            <figure data-number="9">
+                <img src="./slike/x.png" class="x">
+                <img src="./slike/o.png" class="o">
+            </figure>
+
+            <div class="shadow"></div>
+        </div>
+        <div class="dugmad">
+            <button class="btn" role="button" onclick="initialize()">Restart</button>
+            <button class="btn" role="button">One Player</button>
+            <button class="btn" role="button">Two players</button>
+        </div>
+    </main>
+<script src="script.js" ></script>
+</body>
+</html>
