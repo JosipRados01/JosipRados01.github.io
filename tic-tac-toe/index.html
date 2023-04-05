@@ -15,8 +15,8 @@
                 to connect three of their simbols in a row and prevent the other player in doing so
             </p>
             <div>
-                <button class="btn" onclick="hideOverlay(2)"> Two players </button>
-                <button class="btn" onclick="hideOverlay(1)"> One player </button>
+                <button class="btn" onclick="hideOverlay(2); startGame(2)"> Two players </button>
+                <button class="btn" onclick="hideOverlay(1); startGame(1)"> One player </button>
             </div>
         </div>
         <div id="igra" class="iks">
@@ -62,11 +62,20 @@
             <div class="shadow"></div>
         </div>
         <div class="dugmad">
-            <button class="btn" role="button" onclick="initialize()">Restart</button>
-            <button class="btn" role="button">One Player</button>
-            <button class="btn" role="button">Two players</button>
+            <button class="btn" role="button" onclick="restart()">Restart</button>
+            <button class="btn" role="button" onclick="restart(1)">One Player</button>
+            <button class="btn" role="button" onclick="restart(2)">Two players</button>
         </div>
     </main>
+
+    <audio id="xSound">
+        <source src="./zvukovi/x.wav" type="audio/mpeg">
+    </audio>
+
+    <audio id="oSound">
+        <source src="./zvukovi/o.wav" type="audio/mpeg">
+    </audio>
+
 <script src="script.js" ></script>
 </body>
 </html>
