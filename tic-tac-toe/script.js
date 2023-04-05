@@ -1,31 +1,53 @@
 
-let igra = document.getElementById("igra");
-let polja = igra.childNodes;
+/*
+ Globalne varijable, konstante
+ */
+const igra = document.getElementById("igra");
+const polja = igra.childNodes;
 let odigrani = []
-let main = document.querySelector("main");
+const main = document.querySelector("main");
 let trenutniIgrac = "x";
 let playersNum = 2;
 let pobjednicki;
-//vrati varijable na pocetne vrijednosti
+let playOrder = "o";
 
-let restart = ( plrNum = playersNum) => {
+
+/**
+* vrati varijable na pocetne vrijednosti
+* @param: plrNum: number
+* @return
+ */
+const restart = ( plrNum = playersNum) => {
     playersNum = plrNum
     odigrani = []
-    main.classList.add("pozadina_crvena")
-    main.classList.remove("pozadina_zelena")
-    igra.classList.add("iks")
-    igra.classList.remove("oks")
-    //TODO: koji igrac fakat pocinje mora pratit
-    trenutniIgrac = "x";
-    if(pobjednicki){igra.removeChild(pobjednicki)
-    pobjednicki = false;
+    //handlea play order na pocetku runde
+    playOrder = playOrder === "x" ? "o" : "x";
+    trenutniIgrac = playOrder;
+    if(playOrder == "x") {
+        main.classList.add("pozadina_crvena")
+        main.classList.remove("pozadina_zelena")
+        igra.classList.add("iks")
+        igra.classList.remove("oks")
     }
-    console.log("playersNum: " + playersNum)
-
+    else {
+        main.classList.remove("pozadina_crvena")
+        main.classList.add("pozadina_zelena")
+        igra.classList.remove("iks")
+        igra.classList.add("oks")
+        if(playersNum === 1) playmove(1)
+    }
+    //brise pobjednicki div
+    if(pobjednicki){igra.removeChild(pobjednicki)
+    pobjednicki = null;
+    }
     polja.forEach(polje => { polje.id = "" })
 }
-//mjenja igraca
-let swapPlayer = () => {
+
+/**
+ * Mjenja koji igrac trenutno igra
+ * @returns:
+ */
+const swapPlayer = () => {
     trenutniIgrac = trenutniIgrac == "x" ? "o" : "x";
 
     main.classList.toggle("pozadina_crvena")
@@ -35,7 +57,12 @@ let swapPlayer = () => {
     igra.classList.toggle("oks")
 }
 
-//handler za klik
+/**
+ * click handler kad kliknes na igru. Pusha na odigrane poteze, mijenja id, pusti zvuk i poziva gameloop
+ *
+ * @param e : event
+ * @return
+ */
 let odigraj = (e) => {
     console.log(e.target)
     //odigra potez samo ako nije kliknut prije blok
@@ -46,13 +73,17 @@ let odigraj = (e) => {
         //zvuk
         playSound(trenutniIgrac);
         gameLoop();
-        console.log(trenutniIgrac)
         e.stopPropagation()
     }
 
 }
 
-//dodaje eventlisenere
+/**
+ * Inicijalizira varijable na prvom pocetku igre. Dodaje event handlere i poziva restart
+ *
+ * @param: plrNum: number
+ * @return
+ */
 let startGame = (plrNum) => {
     restart(plrNum)
     polja.forEach(polje => {
@@ -60,15 +91,22 @@ let startGame = (plrNum) => {
     })
 }
 
-//hide overlay
-let hideOverlay = (num) => {
+/**
+ * Sakrije i obrise overlay kad kliknem za pocetak igre
+ * @return:
+ */
+let hideOverlay = () => {
     let overlay = document.querySelector(".overlay")
     overlay.classList.add("hide")
     //obrise overlay
     setTimeout(()=> {overlay.style.display = "none"}, 300)
 }
 
-//pusti zvuk na klik
+/**
+ * pusti zvuk na klik
+ * @param ig: string
+ * @return
+ */
 let playSound = (ig)=> {
     if(ig == "x") {
         //play X sound
@@ -80,7 +118,12 @@ let playSound = (ig)=> {
     }
 }
 
-function victory(trenutniIgrac, i) {
+/**
+ * Prikazuje pobjednicki div
+ * @param trenutniIgrac: string
+ * @return
+ */
+function victory(trenutniIgrac) {
     pobjednicki = document.createElement("div")
     pobjednicki.classList.add("pobjednicki")
     pobjednicki.innerHTML = `<h1>${trenutniIgrac.toUpperCase()} WINS</h1>`
@@ -88,7 +131,10 @@ function victory(trenutniIgrac, i) {
     igra.appendChild(pobjednicki)
 }
 
-//funkcija koja provjerava da li se desila pobjeda
+/**
+ * funkcija koja provjerava da li se desila pobjeda ili draw
+ * @returns boolean
+ */
 function checkWin() {
     //podjeli poteze na ikseve i okseve
     let iksevi= []
@@ -121,6 +167,12 @@ function checkWin() {
     return false
 }
 
+/**
+ * imitira klik na igricu ako igra kompjuter.
+ * prima na koje polje da igra [1-9] i dodaje na array odigranih, mjenja id, poziva checkWin i swapPlayer
+ * @param number: number
+ * @return
+ */
 function playmove(number) {
     setTimeout(()=> {
         let mojePolje = document.querySelector(`[data-number='${number}']`);
@@ -136,6 +188,18 @@ function playmove(number) {
 
 }
 
+/**
+ * u prosljedjenom arrayu pronalazi element(target).
+ * prolazi od fromIndex do toIndex indexa koji su postavljeni na 0 i array.length ako nisu prosljedjeni
+ * prima step kao zadnji parametar
+ *
+ * @param arr: array
+ * @param target: number
+ * @param fromIndex: number
+ * @param toIndex: number
+ * @param step: number
+ * @returns number
+ */
 function findElement(arr , target, fromIndex = 0, toIndex = arr.length - 1, step = 1) {
     for (let i = fromIndex; i <= toIndex; i += step) {
         if (arr[i] === target) {
@@ -148,8 +212,15 @@ function findElement(arr , target, fromIndex = 0, toIndex = arr.length - 1, step
 }
 
 
-//
+/**
+ * algoritam koji odigra potez ako kompjuter može pobjediti ili prevenirati gubljenje
+ * vraca da li je odigrao potez ili ne
+ *
+ * @returns boolean
+ */
+
 function possibleWinOrPreventLoss() {
+    //mapira odigrane poteze u ovaj arraj kao: x = 1, o = -1 prazno = 0
     potezi = [0, 0, 0, 0, 0, 0, 0, 0, 0]
     odigrani.forEach( potez => {
         potezi[potez.broj-1] = potez.vrijednost
@@ -246,10 +317,12 @@ function possibleWinOrPreventLoss() {
         return true
     }
     return false
-
-
 }
 
+/**
+ * igra na prvo slobodno mjesto
+ * @returns
+ */
 function playRandom() {
     flag = true
     for (i = 1; i < 10;i++){
@@ -263,8 +336,12 @@ function playRandom() {
     }
 }
 
-//gameloop
-let gameLoop =( ) => {
+/**
+ * logika igre
+ * ako igraju dva igraca onda samo provjerava jel iko pobjdio
+ * ako igra jedan igrac odlucuje gdje ce kompjuter igrati i odigra potez
+ */
+let gameLoop = () => {
 
     if(checkWin()) console.log("yay")
     else {
