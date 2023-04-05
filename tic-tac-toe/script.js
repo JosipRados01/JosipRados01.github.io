@@ -132,7 +132,7 @@ function playmove(number) {
         playSound(trenutniIgrac);
         checkWin()
         swapPlayer()
-    }, 1500)
+    }, 1000)
 
 }
 
