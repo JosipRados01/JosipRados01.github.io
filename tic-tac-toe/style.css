@@ -2,12 +2,17 @@
 :root {
     --levSpeed: 5s;
 }
+body{
+    margin: 0;
+    padding: 0;
+}
 main {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: space-around;
-    height: 97vh;
+    height: 100vh;
+    overflow-y: hidden;
     transition: 0.6s all;
     position: relative;
 }
@@ -16,11 +21,13 @@ main {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    max-width: 25rem;
+    width: 50%;
+    min-width: 350px;
+    box-sizing: border-box;
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 3rem;
+    padding: 2rem;
     background: rgba(18, 18, 18, 0.75);
     z-index: 1;
     border-radius: 30px;
@@ -31,12 +38,46 @@ main {
 .overlay.hide {
     opacity: 0;
 }
+.overlay input {
+    height: 3rem;
+    border-radius: 15px;
+    font-size: 2rem;
+    width: 100%;
+}
+
+.overlay h2 {
+    text-align: center;
+    text-shadow: black 2px 2px 2px ;
+}
+
+#scoreCounter {
+    position: absolute;
+    right: 2rem;
+    top: 2rem;
+    font-size: 2rem;
+    font-family: Inter,sans-serif;
+    font-weight: 700;
+    padding: 1rem;
+    background: rgba(255, 255, 255);
+    border-radius: 15px;
+
+}
+
+.shadow-box {
+    box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.25);
+}
 
 h1 {
     text-align: center;
-    font-size: 3rem;
+    font-size: 4rem;
     color: white;
     text-shadow: black 2px 2px 2px ;
+}
+h2 {
+font-size: 2.5rem;
+}
+p, span {
+    font-size: 2rem;
 }
 
 #igra {
@@ -54,7 +95,7 @@ h1 {
 #igra figure {
     aspect-ratio: 1;
     position: relative;
-    width: 80px;
+    width: calc(0.15 * min(100vw, 100vh));
     margin: 0;
     background: white;
 }
@@ -142,14 +183,13 @@ h1 {
    align-items: center;
    background-color: #fff;
    border-radius: 12px;
-   box-shadow: transparent 0 0 0 3px,rgba(18, 18, 18, .1) 0 6px 20px;
    box-sizing: border-box;
    color: #121212;
    cursor: pointer;
    display: inline-flex;
    flex: 1 1 auto;
    font-family: Inter,sans-serif;
-   font-size: 1.2rem;
+   font-size: 2rem;
    font-weight: 700;
    justify-content: center;
    line-height: 1;
@@ -183,4 +223,16 @@ h1 {
     justify-content: center;
     background: rgba(18, 18, 18, 0.3);
     border-radius: 25px;
+}
+.row_to_column {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+@media screen and (max-width: 767px) {
+    /* CSS rule for small screens */
+    .row_to_column {
+        flex-direction: column;
+        align-items: center;
+    }
 }

@@ -10,6 +10,7 @@ let trenutniIgrac = "x";
 let playersNum = 2;
 let pobjednicki;
 let playOrder = "o";
+const wins = {x: 0, o: 0}
 
 
 /**
@@ -17,8 +18,16 @@ let playOrder = "o";
 * @param: plrNum: number
 * @return
  */
-const restart = ( plrNum = playersNum) => {
-    playersNum = plrNum
+const restart = ( plrNum ) => {
+    if (plrNum) {
+        playersNum = plrNum
+        updateScore([0,0])
+    }
+    else {
+        //ako nije prosljedjen broj znaci da je kliknut restart. U tom slucaju gubi igrac koji je kliknuo restart
+        if(odigrani.length < 9)
+        trenutniIgrac == "x" ? updateScore([wins.x, wins.o+1]) :updateScore([wins.x+1, wins.o]);
+    }
     odigrani = []
     //handlea play order na pocetku runde
     playOrder = playOrder === "x" ? "o" : "x";
@@ -103,6 +112,47 @@ let hideOverlay = () => {
 }
 
 /**
+ * postavlja imena igraca u divu gdje je score counter
+ *
+ */
+const setPlayerNames = () => {
+    const inputi = document.querySelectorAll(".overlay input")
+    console.log(inputi)
+    const imena = [];
+    inputi.forEach( inp => {imena.push(inp.value)})
+    console.log(imena)
+    document.getElementById("player1Name").innerText = imena[0] + " (x): "
+    if (imena.length == 2)
+        document.getElementById("player2Name").innerText = imena[1] + " (o): "
+    else
+        document.getElementById("player2Name").innerText = "Computer"
+
+}
+/**
+ * Mijenja overlay tako da sada prihvata imena igrača
+ * prima broj igraca
+ * @param num
+ */
+const swapOverlay = (num) => {
+    let overlay = document.querySelector(".overlay")
+    if (num === 1)
+        overlay.innerHTML = `
+            <h1>Write your name</h1>
+            <input>
+           <button class="btn" onclick=" startGame(1); setPlayerNames(); hideOverlay(); "> Start Game</button>
+         `
+    else
+        overlay.innerHTML = ` 
+            <h1>Write your name</h1>
+            <h2>Player 1 ( X )</h2>
+            <input>
+            <h2>Player 2 ( O )</h2>
+            <input>
+            <button class="btn" onclick=" startGame(2); setPlayerNames(); hideOverlay() "> Start Game</button>
+             `
+}
+
+/**
  * pusti zvuk na klik
  * @param ig: string
  * @return
@@ -117,6 +167,17 @@ let playSound = (ig)=> {
         document.getElementById("oSound").play()
     }
 }
+/**
+ * Prima array koji u sebi ima score u fomatu [x, o], setta score na to i updateuje view
+ * @param x
+ * @param o
+ */
+const updateScore = ([x, o]) => {
+    wins.x = x;
+    wins.o = o;
+    document.getElementById("player1Score").innerText = "" + x
+    document.getElementById("player2Score").innerText = "" + o
+}
 
 /**
  * Prikazuje pobjednicki div
@@ -127,8 +188,8 @@ function victory(trenutniIgrac) {
     pobjednicki = document.createElement("div")
     pobjednicki.classList.add("pobjednicki")
     pobjednicki.innerHTML = `<h1>${trenutniIgrac.toUpperCase()} WINS</h1>`
-
     igra.appendChild(pobjednicki)
+    updateScore(trenutniIgrac == "x" ? [wins.x+1, wins.o] : trenutniIgrac == "o" ? [wins.x, wins.o+1] : [0, 0])
 }
 
 /**
@@ -368,6 +429,6 @@ let gameLoop = () => {
     }
 }
 console.log()
-
+// TODO: mobile dizajn
 //TODO: ako klikne restart a igra nije gotova onda gubi igrac ciji je red da igra
 //todo: logika igrice  i win counteri

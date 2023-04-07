@@ -14,11 +14,20 @@
                 the rules are simple: two players play against each other each one trying
                 to connect three of their simbols in a row and prevent the other player in doing so
             </p>
-            <div>
-                <button class="btn" onclick="hideOverlay(); startGame(2)"> Two players </button>
-                <button class="btn" onclick="hideOverlay(); startGame(1)"> One player </button>
+            <div class="row_to_column">
+                <button class="btn" onclick="swapOverlay(2); "> Two players </button>
+                <button class="btn" onclick="swapOverlay(1); "> One player </button>
             </div>
         </div>
+
+        <div id="scoreCounter" class="shadow-box">
+            <span id="player1Name">Player 1: </span>
+            <span id="player1Score">0</span>
+            <br>
+            <span id="player2Name">Player 2: </span>
+            <span id="player2Score">0</span>
+        </div>
+
         <div id="igra" class="iks">
             <figure  data-number="1">
                 <img src="./slike/x.png" class="x">
@@ -62,9 +71,9 @@
             <div class="shadow"></div>
         </div>
         <div class="dugmad">
-            <button class="btn" role="button" onclick="restart()">Restart</button>
-            <button class="btn" role="button" onclick="restart(1)">One Player</button>
-            <button class="btn" role="button" onclick="restart(2)">Two players</button>
+            <button class="btn shadow-box" role="button" onclick="restart()">Restart</button>
+            <button class="btn shadow-box" role="button" onclick="restart(1)">One Player</button>
+            <button class="btn shadow-box" role="button" onclick="restart(2)">Two players</button>
         </div>
     </main>
 
