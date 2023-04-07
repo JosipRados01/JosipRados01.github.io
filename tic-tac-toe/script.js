@@ -22,6 +22,7 @@ const restart = ( plrNum ) => {
     if (plrNum) {
         playersNum = plrNum
         updateScore([0,0])
+        playOrder = "o"
     }
     else {
         //ako nije prosljedjen broj znaci da je kliknut restart. U tom slucaju gubi igrac koji je kliknuo restart
