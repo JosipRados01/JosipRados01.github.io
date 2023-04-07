@@ -25,7 +25,7 @@ const restart = ( plrNum ) => {
     }
     else {
         //ako nije prosljedjen broj znaci da je kliknut restart. U tom slucaju gubi igrac koji je kliknuo restart
-        if(odigrani.length < 9)
+        if(odigrani.length < 9 && !pobjednicki)
         trenutniIgrac == "x" ? updateScore([wins.x, wins.o+1]) :updateScore([wins.x+1, wins.o]);
     }
     odigrani = []

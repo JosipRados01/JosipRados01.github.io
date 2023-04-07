@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Iks-Oks</title>
     <link rel="stylesheet" type="text/css" href="style.css">
 </head>
@@ -14,18 +15,22 @@
                 the rules are simple: two players play against each other each one trying
                 to connect three of their simbols in a row and prevent the other player in doing so
             </p>
-            <div class="row_to_column">
+            <div class="flex-row-to-column">
                 <button class="btn" onclick="swapOverlay(2); "> Two players </button>
                 <button class="btn" onclick="swapOverlay(1); "> One player </button>
             </div>
         </div>
 
-        <div id="scoreCounter" class="shadow-box">
-            <span id="player1Name">Player 1: </span>
-            <span id="player1Score">0</span>
-            <br>
-            <span id="player2Name">Player 2: </span>
-            <span id="player2Score">0</span>
+        <div id="scoreCounter" class="shadow-box flex-column-to-row">
+            <div class="skinny">
+                <span id="player1Name">Player 1: </span>
+                <span id="player1Score">0</span>
+            </div>
+
+            <div class="skinny" >
+                <span id="player2Name">Player 2: </span>
+                <span id="player2Score">0</span>
+            </div>
         </div>
 
         <div id="igra" class="iks">

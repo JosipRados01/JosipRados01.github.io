@@ -75,6 +75,7 @@ h1 {
 }
 h2 {
 font-size: 2.5rem;
+    margin: 5px;
 }
 p, span {
     font-size: 2rem;
@@ -91,6 +92,7 @@ p, span {
     animation-name: levitate;
     animation-duration: var(--levSpeed);
     animation-iteration-count: infinite;
+    margin-top: 100px ;
 }
 #igra figure {
     aspect-ratio: 1;
@@ -224,15 +226,56 @@ p, span {
     background: rgba(18, 18, 18, 0.3);
     border-radius: 25px;
 }
-.row_to_column {
+.flex-row-to-column {
     display: flex;
     flex-direction: row;
     justify-content: space-around;
 }
-@media screen and (max-width: 767px) {
+
+.flex-column-to-row {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+.skinny {
+    margin: 0;
+    padding: 5px 10px;
+}
+
+@media only screen and (max-width: 768px) {
     /* CSS rule for small screens */
-    .row_to_column {
+    p, span {
+        font-size: 1.2rem;
+    }
+    h1 {
+        font-size: 3rem;
+    }
+    h2 {
+        font-size: 2rem;
+    }
+    .btn {
+        font-size: 1.5rem;
+    }
+    .flex-row-to-column {
         flex-direction: column;
-        align-items: center;
+    }
+    .flex-column-to-row {
+        flex-direction: row;
+    }
+    .overlay input {
+        height: 2rem;
+        font-size: 1.5rem;
+    }
+    #scoreCounter {
+        left: 50%;
+        transform: translateX(-50%);
+        min-width: 300px;
+    }
+}
+
+@media only screen and (max-width: 1100px) {
+    /* CSS rule for medium-large screens */
+    .overlay {
+        width: 80%;
     }
 }
