@@ -1,5 +1,3 @@
-
-
 import view from "./view";
 import logic from "./logic";
 
@@ -22,11 +20,11 @@ const deepReset = (plrNum, playerNum, playOrder) => {
 
 
 const swapPlayer = () => {
-    trenutniIgrac = trenutniIgrac == "x" ? "o" : "x";
+    currentPlayer = currentPlayer == "x" ? "o" : "x";
 
     main.classList.toggle("pozadina_crvena")
     main.classList.toggle("pozadina_zelena")
 
-    igra.classList.toggle("iks")
-    igra.classList.toggle("oks")
+    game.classList.toggle("iks")
+    game.classList.toggle("oks")
 }

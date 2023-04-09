@@ -2,13 +2,13 @@
 /*
  Globalne varijable, konstante
  */
-const igra = document.getElementById("igra");
-const polja = igra.childNodes;
-let odigrani = []
+const game = document.getElementById("igra");
+const gameFields = game.childNodes;
+let moves = []
 const main = document.querySelector("main");
-let trenutniIgrac = "x";
+let currentPlayer = "x";
 let playersNum = 2;
-let pobjednicki;
+let winnerDiv;
 let playOrder = "o";
 const wins = {x: 0, o: 0}
 
@@ -26,31 +26,31 @@ const restart = ( plrNum ) => {
     }
     else {
         //ako nije prosljedjen broj znaci da je kliknut restart. U tom slucaju gubi igrac koji je kliknuo restart
-        if(odigrani.length < 9 && !pobjednicki)
-        trenutniIgrac == "x" ? updateScore([wins.x, wins.o+1]) :updateScore([wins.x+1, wins.o]);
+        if(moves.length < 9 && !winnerDiv)
+        currentPlayer == "x" ? updateScore([wins.x, wins.o+1]) :updateScore([wins.x+1, wins.o]);
     }
-    odigrani = []
+    moves = []
     //handlea play order na pocetku runde
     playOrder = playOrder === "x" ? "o" : "x";
-    trenutniIgrac = playOrder;
+    currentPlayer = playOrder;
     if(playOrder == "x") {
         main.classList.add("pozadina_crvena")
         main.classList.remove("pozadina_zelena")
-        igra.classList.add("iks")
-        igra.classList.remove("oks")
+        game.classList.add("iks")
+        game.classList.remove("oks")
     }
     else {
         main.classList.remove("pozadina_crvena")
         main.classList.add("pozadina_zelena")
-        igra.classList.remove("iks")
-        igra.classList.add("oks")
+        game.classList.remove("iks")
+        game.classList.add("oks")
         if(playersNum === 1) playmove(1)
     }
     //brise pobjednicki div
-    if(pobjednicki){igra.removeChild(pobjednicki)
-    pobjednicki = null;
+    if(winnerDiv){game.removeChild(winnerDiv)
+    winnerDiv = null;
     }
-    polja.forEach(polje => { polje.id = "" })
+    gameFields.forEach(field => { field.id = "" })
 }
 
 /**
@@ -58,13 +58,13 @@ const restart = ( plrNum ) => {
  * @returns:
  */
 const swapPlayer = () => {
-    trenutniIgrac = trenutniIgrac == "x" ? "o" : "x";
+    currentPlayer = currentPlayer == "x" ? "o" : "x";
 
     main.classList.toggle("pozadina_crvena")
     main.classList.toggle("pozadina_zelena")
 
-    igra.classList.toggle("iks")
-    igra.classList.toggle("oks")
+    game.classList.toggle("iks")
+    game.classList.toggle("oks")
 }
 
 /**
@@ -73,15 +73,15 @@ const swapPlayer = () => {
  * @param e : event
  * @return
  */
-let odigraj = (e) => {
+let clickHandler = (e) => {
     console.log(e.target)
     //odigra potez samo ako nije kliknut prije blok
     if(e.target.parentNode.id == ""){
-        odigrani.push({broj: e.target.parentNode.dataset.number,  vrijednost: trenutniIgrac == "x" ? 1 : -1})
+        moves.push({index: e.target.parentNode.dataset.number,  value: currentPlayer == "x" ? 1 : -1})
         //TODO: dodat 3 varijante slike nakon sto kliknes
-        e.target.parentNode.id = "odigrano_" + trenutniIgrac
+        e.target.parentNode.id = "odigrano_" + currentPlayer
         //zvuk
-        playSound(trenutniIgrac);
+        playSound(currentPlayer);
         gameLoop();
         e.stopPropagation()
     }
@@ -96,8 +96,8 @@ let odigraj = (e) => {
  */
 let startGame = (plrNum) => {
     restart(plrNum)
-    polja.forEach(polje => {
-        polje.addEventListener("click", odigraj)
+    gameFields.forEach(field => {
+        field.addEventListener("click", clickHandler)
     })
 }
 
@@ -117,14 +117,14 @@ let hideOverlay = () => {
  *
  */
 const setPlayerNames = () => {
-    const inputi = document.querySelectorAll(".overlay input")
-    console.log(inputi)
-    const imena = [];
-    inputi.forEach( inp => {imena.push(inp.value)})
-    console.log(imena)
-    document.getElementById("player1Name").innerText = imena[0] + " (x): "
-    if (imena.length == 2)
-        document.getElementById("player2Name").innerText = imena[1] + " (o): "
+    const inputs = document.querySelectorAll(".overlay input")
+    console.log(inputs)
+    const names = [];
+    inputs.forEach( inp => {names.push(inp.value)})
+    console.log(names)
+    document.getElementById("player1Name").innerText = names[0] + " (x): "
+    if (names.length == 2)
+        document.getElementById("player2Name").innerText = names[1] + " (o): "
     else
         document.getElementById("player2Name").innerText = "Computer"
 
@@ -186,10 +186,10 @@ const updateScore = ([x, o]) => {
  * @return
  */
 function victory(trenutniIgrac) {
-    pobjednicki = document.createElement("div")
-    pobjednicki.classList.add("pobjednicki")
-    pobjednicki.innerHTML = `<h1>${trenutniIgrac.toUpperCase()} WINS</h1>`
-    igra.appendChild(pobjednicki)
+    winnerDiv = document.createElement("div")
+    winnerDiv.classList.add("pobjednicki")
+    winnerDiv.innerHTML = `<h1>${trenutniIgrac.toUpperCase()} WINS</h1>`
+    game.appendChild(winnerDiv)
     updateScore(trenutniIgrac == "x" ? [wins.x+1, wins.o] : trenutniIgrac == "o" ? [wins.x, wins.o+1] : [0, 0])
 }
 
@@ -201,7 +201,7 @@ function checkWin() {
     //podjeli poteze na ikseve i okseve
     let iksevi= []
     let oksevi = []
-    odigrani.forEach( potez => {
+    moves.forEach( potez => {
         if(potez.vrijednost == 1) iksevi.push(potez.broj)
         if(potez.vrijednost == -1) oksevi.push(potez.broj)
     })
@@ -221,11 +221,11 @@ function checkWin() {
     ]
 
     for ( i = 0; i < dobitneKombinacije.length;i++){
-        if(dobitneKombinacije[i].every(el => iksevi.includes(el))) { victory(trenutniIgrac, i); return true }
-        if(dobitneKombinacije[i].every(el => oksevi.includes(el))) { victory(trenutniIgrac, i); return true }
+        if(dobitneKombinacije[i].every(el => iksevi.includes(el))) { victory(currentPlayer, i); return true }
+        if(dobitneKombinacije[i].every(el => oksevi.includes(el))) { victory(currentPlayer, i); return true }
     }
     //ako je puna tabla
-    if(odigrani.length == 9) victory("nobody", 1)
+    if(moves.length == 9) victory("nobody", 1)
     return false
 }
 
@@ -239,11 +239,11 @@ function playmove(number) {
     setTimeout(()=> {
         let mojePolje = document.querySelector(`[data-number='${number}']`);
 
-        odigrani.push({broj: "" +number,  vrijednost: trenutniIgrac == "x" ? 1 : -1})
+        moves.push({broj: "" +number,  vrijednost: currentPlayer == "x" ? 1 : -1})
         //TODO: dodat 3 varijante slike nakon sto kliknes
-        mojePolje.id = "odigrano_" + trenutniIgrac
+        mojePolje.id = "odigrano_" + currentPlayer
         //zvuk
-        playSound(trenutniIgrac);
+        playSound(currentPlayer);
         checkWin()
         swapPlayer()
     }, 1000)
@@ -284,7 +284,7 @@ function findElement(arr , target, fromIndex = 0, toIndex = arr.length - 1, step
 function possibleWinOrPreventLoss() {
     //mapira odigrane poteze u ovaj arraj kao: x = 1, o = -1 prazno = 0
     potezi = [0, 0, 0, 0, 0, 0, 0, 0, 0]
-    odigrani.forEach( potez => {
+    moves.forEach( potez => {
         potezi[potez.broj-1] = potez.vrijednost
     })
     let possibleLoss = []
@@ -293,7 +293,7 @@ function possibleWinOrPreventLoss() {
     for (let i = 0; i < 9; i += 3) {
         let sum = potezi[i] + potezi[i+1] + potezi[i+2];
         if (sum === 2) {
-            if(trenutniIgrac == "x") {
+            if(currentPlayer == "x") {
                 playmove(findElement(potezi, 0, i));
                 return true
             }
@@ -301,7 +301,7 @@ function possibleWinOrPreventLoss() {
                 possibleLoss.push(findElement(potezi, 0, i))
             }
         } else if (sum === -2) {
-            if(trenutniIgrac == "o") {
+            if(currentPlayer == "o") {
                 playmove(findElement(potezi, 0, i));
                 return true
             }
@@ -315,7 +315,7 @@ function possibleWinOrPreventLoss() {
     for (let i = 0; i < 3; i++) {
         const sum = potezi[i] + potezi[i+3] + potezi[i+6];
         if (sum === 2) {
-            if(trenutniIgrac == "x") {
+            if(currentPlayer == "x") {
                 playmove(findElement(potezi, 0, i, 8, 3));
                 return true
             }
@@ -323,7 +323,7 @@ function possibleWinOrPreventLoss() {
                 possibleLoss.push(findElement(potezi, 0, i, 8, 3))
             }
         } else if (sum === -2) {
-            if(trenutniIgrac == "o") {
+            if(currentPlayer == "o") {
                 playmove(findElement(potezi, 0, i, 8, 3));
                 return true
             }
@@ -338,7 +338,7 @@ function possibleWinOrPreventLoss() {
     const diag1Sum = potezi[0] + potezi[4] + potezi[8];
     const diag2Sum = potezi[2] + potezi[4] + potezi[6];
     if (diag1Sum === 2) {
-        if (trenutniIgrac == "x") {
+        if (currentPlayer == "x") {
             playmove(findElement(potezi, 0, 0, 8, 4));
             return true
         }
@@ -346,7 +346,7 @@ function possibleWinOrPreventLoss() {
             possibleLoss.push(findElement(potezi, 0, 0, 8, 4))
         }
     } else if (diag1Sum === -2) {
-        if (trenutniIgrac == "o") {
+        if (currentPlayer == "o") {
             playmove(findElement(potezi, 0, 0, 8, 4));
             return true
         }
@@ -355,7 +355,7 @@ function possibleWinOrPreventLoss() {
         }
 
     } else if (diag2Sum === 2) {
-        if (trenutniIgrac == "x") {
+        if (currentPlayer == "x") {
             playmove(findElement(potezi, 0, 2, 7, 2));
             return true
         }
@@ -363,7 +363,7 @@ function possibleWinOrPreventLoss() {
             possibleLoss.push(findElement(potezi, 0, 2, 7, 2))
         }
     } else if (diag2Sum === -2) {
-        if (trenutniIgrac == "o") {
+        if (currentPlayer == "o") {
             playmove(findElement(potezi, 0, 2, 7, 2));
             return true
         }
@@ -388,7 +388,7 @@ function possibleWinOrPreventLoss() {
 function playRandom() {
     flag = true
     for (i = 1; i < 10;i++){
-        odigrani.forEach((potez)=> {
+        moves.forEach((potez)=> {
             if(potez.broj == "" + i) {
                 flag = false
             }
@@ -412,11 +412,11 @@ let gameLoop = () => {
         //ako je one player mode ovdje odlucuje gdje ce sodigrati potez
         if (playersNum == 1) {
             //ako igra prvi odigra cosak
-            if (odigrani.length < 1)
+            if (moves.length < 1)
                 playmove(1)
             //ako igra drugi odigra u centar, ako ne moze igra u cosak
-            else if (odigrani.length == 1) {
-                if (odigrani[0].broj == 5) playmove(1)
+            else if (moves.length == 1) {
+                if (moves[0].broj == 5) playmove(1)
                 else playmove(5)
             }
             //ako moze pobjedit pobjedi, ako moze izgubit blokira te
