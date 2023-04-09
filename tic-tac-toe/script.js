@@ -190,7 +190,7 @@ function victory(trenutniIgrac) {
     winnerDiv.classList.add("pobjednicki")
     winnerDiv.innerHTML = `<h1>${trenutniIgrac.toUpperCase()} WINS</h1>`
     game.appendChild(winnerDiv)
-    updateScore(trenutniIgrac == "x" ? [wins.x+1, wins.o] : trenutniIgrac == "o" ? [wins.x, wins.o+1] : [0, 0])
+    updateScore(trenutniIgrac == "x" ? [wins.x+1, wins.o] : trenutniIgrac == "o" ? [wins.x, wins.o+1] : [wins.x, wins.o])
 }
 
 /**
@@ -199,30 +199,30 @@ function victory(trenutniIgrac) {
  */
 function checkWin() {
     //podjeli poteze na ikseve i okseve
-    let iksevi= []
-    let oksevi = []
-    moves.forEach( potez => {
-        if(potez.vrijednost == 1) iksevi.push(potez.broj)
-        if(potez.vrijednost == -1) oksevi.push(potez.broj)
+    let xFields= []
+    let oFields = []
+    moves.forEach( move => {
+        if(move.value == 1) xFields.push(move.index)
+        if(move.value == -1) oFields.push(move.index)
     })
     //provjeri da li je iko odigrao pobjedu
-    let dobitneKombinacije = [
-        //horizontale
-        ["1", "2", "3"],
-        ["4", "5", "6"],
-        ["7", "8", "9"],
-        //dijagonale
-        ["1", "5", "9"],
-        ["7", "5", "3"],
-        //vertikale
+    let winningCombinations = [    
+        // horizontal
+        ["0", "1", "2"],
+        ["3", "4", "5"],
+        ["6", "7", "8"],
+        // diagonal
+        ["0", "4", "8"],
+        ["6", "4", "2"],
+        // vertical
+        ["0", "3", "6"],
         ["1", "4", "7"],
-        ["2", "5", "8"],
-        ["3", "6", "9"]
-    ]
+        ["2", "5", "8"]
+    ];
 
-    for ( i = 0; i < dobitneKombinacije.length;i++){
-        if(dobitneKombinacije[i].every(el => iksevi.includes(el))) { victory(currentPlayer, i); return true }
-        if(dobitneKombinacije[i].every(el => oksevi.includes(el))) { victory(currentPlayer, i); return true }
+    for ( i = 0; i < winningCombinations.length;i++){
+        if(winningCombinations[i].every(el => xFields.includes(el))) { victory(currentPlayer, i); return true }
+        if(winningCombinations[i].every(el => oFields.includes(el))) { victory(currentPlayer, i); return true }
     }
     //ako je puna tabla
     if(moves.length == 9) victory("nobody", 1)
@@ -237,11 +237,11 @@ function checkWin() {
  */
 function playmove(number) {
     setTimeout(()=> {
-        let mojePolje = document.querySelector(`[data-number='${number}']`);
+        let myField = document.querySelector(`[data-number='${number}']`);
 
-        moves.push({broj: "" +number,  vrijednost: currentPlayer == "x" ? 1 : -1})
+        moves.push({index: "" + number,  value: currentPlayer == "x" ? 1 : -1})
         //TODO: dodat 3 varijante slike nakon sto kliknes
-        mojePolje.id = "odigrano_" + currentPlayer
+        myField.id = "odigrano_" + currentPlayer
         //zvuk
         playSound(currentPlayer);
         checkWin()
@@ -265,7 +265,7 @@ function playmove(number) {
 function findElement(arr , target, fromIndex = 0, toIndex = arr.length - 1, step = 1) {
     for (let i = fromIndex; i <= toIndex; i += step) {
         if (arr[i] === target) {
-            return i+1;
+            return i;
         }
     }
 
@@ -283,92 +283,93 @@ function findElement(arr , target, fromIndex = 0, toIndex = arr.length - 1, step
 
 function possibleWinOrPreventLoss() {
     //mapira odigrane poteze u ovaj arraj kao: x = 1, o = -1 prazno = 0
-    potezi = [0, 0, 0, 0, 0, 0, 0, 0, 0]
-    moves.forEach( potez => {
-        potezi[potez.broj-1] = potez.vrijednost
+    boardState = [0, 0, 0, 0, 0, 0, 0, 0, 0]
+    moves.forEach( move => {
+        boardState[move.index] = move.value
     })
     let possibleLoss = []
+    console.log(boardState)
 
     // horizontalno
     for (let i = 0; i < 9; i += 3) {
-        let sum = potezi[i] + potezi[i+1] + potezi[i+2];
+        let sum = boardState[i] + boardState[i+1] + boardState[i+2];
         if (sum === 2) {
             if(currentPlayer == "x") {
-                playmove(findElement(potezi, 0, i));
+                playmove(findElement(boardState, 0, i));
                 return true
             }
             else {
-                possibleLoss.push(findElement(potezi, 0, i))
+                possibleLoss.push(findElement(boardState, 0, i))
             }
         } else if (sum === -2) {
             if(currentPlayer == "o") {
-                playmove(findElement(potezi, 0, i));
+                playmove(findElement(boardState, 0, i));
                 return true
             }
             else {
-                possibleLoss.push(findElement(potezi, 0, i))
+                possibleLoss.push(findElement(boardState, 0, i))
             }
         }
     }
 
     // vertikalno
     for (let i = 0; i < 3; i++) {
-        const sum = potezi[i] + potezi[i+3] + potezi[i+6];
+        const sum = boardState[i] + boardState[i+3] + boardState[i+6];
         if (sum === 2) {
             if(currentPlayer == "x") {
-                playmove(findElement(potezi, 0, i, 8, 3));
+                playmove(findElement(boardState, 0, i, 8, 3));
                 return true
             }
             else {
-                possibleLoss.push(findElement(potezi, 0, i, 8, 3))
+                possibleLoss.push(findElement(boardState, 0, i, 8, 3))
             }
         } else if (sum === -2) {
             if(currentPlayer == "o") {
-                playmove(findElement(potezi, 0, i, 8, 3));
+                playmove(findElement(boardState, 0, i, 8, 3));
                 return true
             }
             else {
-                possibleLoss.push(findElement(potezi, 0, i, 8, 3))
+                possibleLoss.push(findElement(boardState, 0, i, 8, 3))
             }
         }
 
     }
 
     // diagonalno
-    const diag1Sum = potezi[0] + potezi[4] + potezi[8];
-    const diag2Sum = potezi[2] + potezi[4] + potezi[6];
+    const diag1Sum = boardState[0] + boardState[4] + boardState[8];
+    const diag2Sum = boardState[2] + boardState[4] + boardState[6];
     if (diag1Sum === 2) {
         if (currentPlayer == "x") {
-            playmove(findElement(potezi, 0, 0, 8, 4));
+            playmove(findElement(boardState, 0, 0, 8, 4));
             return true
         }
         else {
-            possibleLoss.push(findElement(potezi, 0, 0, 8, 4))
+            possibleLoss.push(findElement(boardState, 0, 0, 8, 4))
         }
     } else if (diag1Sum === -2) {
         if (currentPlayer == "o") {
-            playmove(findElement(potezi, 0, 0, 8, 4));
+            playmove(findElement(boardState, 0, 0, 8, 4));
             return true
         }
         else {
-            possibleLoss.push(findElement(potezi, 0, 0, 8, 4))
+            possibleLoss.push(findElement(boardState, 0, 0, 8, 4))
         }
 
     } else if (diag2Sum === 2) {
         if (currentPlayer == "x") {
-            playmove(findElement(potezi, 0, 2, 7, 2));
+            playmove(findElement(boardState, 0, 2, 7, 2));
             return true
         }
         else {
-            possibleLoss.push(findElement(potezi, 0, 2, 7, 2))
+            possibleLoss.push(findElement(boardState, 0, 2, 7, 2))
         }
     } else if (diag2Sum === -2) {
         if (currentPlayer == "o") {
-            playmove(findElement(potezi, 0, 2, 7, 2));
+            playmove(findElement(boardState, 0, 2, 7, 2));
             return true
         }
         else {
-            possibleLoss.push(findElement(potezi, 0, 2, 7, 2))
+            possibleLoss.push(findElement(boardState, 0, 2, 7, 2))
             return true
         }
     }
@@ -388,8 +389,8 @@ function possibleWinOrPreventLoss() {
 function playRandom() {
     flag = true
     for (i = 1; i < 10;i++){
-        moves.forEach((potez)=> {
-            if(potez.broj == "" + i) {
+        moves.forEach((move)=> {
+            if(move.index == "" + i) {
                 flag = false
             }
         })
@@ -403,7 +404,7 @@ function playRandom() {
  * ako igraju dva igraca onda samo provjerava jel iko pobjdio
  * ako igra jedan igrac odlucuje gdje ce kompjuter igrati i odigra potez
  */
-let gameLoop = () => {
+const gameLoop = () => {
 
     if(checkWin()) console.log("yay")
     else {
@@ -416,7 +417,7 @@ let gameLoop = () => {
                 playmove(1)
             //ako igra drugi odigra u centar, ako ne moze igra u cosak
             else if (moves.length == 1) {
-                if (moves[0].broj == 5) playmove(1)
+                if (moves[0].index == 5) playmove(1)
                 else playmove(5)
             }
             //ako moze pobjedit pobjedi, ako moze izgubit blokira te
@@ -428,8 +429,14 @@ let gameLoop = () => {
             }
         }
     }
+    console.log(moves)
 }
 console.log()
 // TODO: mobile dizajn
+//todo: dokumentaciju prevest na engleski
+//todo: inplementirat undo
+//todo:prevest u Astro
+//todo:
+//todo:
 //TODO: ako klikne restart a igra nije gotova onda gubi igrac ciji je red da igra
 //todo: logika igrice  i win counteri
