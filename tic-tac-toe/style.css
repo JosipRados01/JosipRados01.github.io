@@ -92,12 +92,14 @@ p, span {
     animation-name: levitate;
     animation-duration: var(--levSpeed);
     animation-iteration-count: infinite;
-    margin-top: 100px ;
+    margin-top: 80px ;
+    margin-bottom: 50px;
 }
 #igra figure {
     aspect-ratio: 1;
     position: relative;
-    width: calc(0.15 * min(100vw, 100vh));
+    width: calc(0.12 * min(100vw, 100vh));
+    min-width: 50px;
     margin: 0;
     background: white;
 }
